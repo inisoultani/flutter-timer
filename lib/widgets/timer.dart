@@ -16,7 +16,7 @@ class _TimerState extends State<Timer> {
         '00:42',
         style: TextStyle(
           fontSize: 100,
-          //backgroundColor: Colors.green,
+          color: Colors.white
         ),
       ),
       decoration: BoxDecoration(

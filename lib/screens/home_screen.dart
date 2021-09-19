@@ -168,15 +168,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     ElevatedButton(
                       onPressed: () {}, 
-                      child: Icon(Icons.pause, size: 50,) 
+                      child: Icon(Icons.pause, size: 50,),
+                      style: ButtonStyle(
+                        backgroundColor:  MaterialStateProperty.all<Color>(Colors.green),
+                      ),
                     ),
                     ElevatedButton(
                       onPressed: () {}, 
-                      child: Icon(Icons.autorenew_sharp, size: 50,) 
+                      child: Icon(Icons.autorenew_sharp, size: 50,),
+                      style: ButtonStyle(
+                        backgroundColor:  MaterialStateProperty.all<Color>(Colors.yellow.shade700),
+                      ),
                     ),
                      ElevatedButton(
                       onPressed: () {}, 
-                      child: Icon(Icons.double_arrow, size: 50,) 
+                      child: Icon(Icons.double_arrow, size: 50,),
+                      style: ButtonStyle(
+                        backgroundColor:  MaterialStateProperty.all<Color>(Colors.green),
+                      ),
                     ),
                   ],
                 ),
