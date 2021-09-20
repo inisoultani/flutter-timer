@@ -73,6 +73,7 @@ class TimerWidgetState extends State<TimerWidget> {
     } else {
       setState(() => duration = Duration());
     }
+    setState(() => timeCardColor = Colors.green);
   }
 
   Widget buildTimeCard({required String time, required String header}) {
@@ -80,7 +81,7 @@ class TimerWidgetState extends State<TimerWidget> {
       children: [
         Container(
           padding: EdgeInsets.all(15),
-          width: 150,
+          width: 160,
           height: 120,
           child: FittedBox(
             child: Text(
@@ -95,7 +96,7 @@ class TimerWidgetState extends State<TimerWidget> {
         ),
         Container(
           padding: EdgeInsets.all(15),
-          width: 150,
+          width: 160,
           child: Text(
             header,
             textAlign: TextAlign.center,

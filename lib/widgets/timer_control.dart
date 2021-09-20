@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-class TimerControl extends StatefulWidget {
+class TimerControl extends StatelessWidget {
   // final Function startTimer;
   final Function startRound;
   final Function resetRound;
@@ -10,17 +10,6 @@ class TimerControl extends StatefulWidget {
   const TimerControl(
       {Key? key, required this.startRound, required this.isStartRound, required this.resetRound})
       : super(key: key);
-
-  @override
-  _TimerControlState createState() => _TimerControlState();
-}
-
-class _TimerControlState extends State<TimerControl> {
-  IconData startTimerIcon = Icons.play_arrow;
-
-  void startTimer() {
-    this.widget.startRound();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +22,9 @@ class _TimerControlState extends State<TimerControl> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              onPressed: () => this.widget.startRound(),
+              onPressed: () => this.startRound(),
               child: Icon(
-                this.widget.isStartRound ? Icons.pause : Icons.play_arrow,
+                this.isStartRound ? Icons.pause : Icons.play_arrow,
                 size: 50,
               ),
               style: ButtonStyle(
@@ -43,7 +32,7 @@ class _TimerControlState extends State<TimerControl> {
               ),
             ),
             ElevatedButton(
-              onPressed: () => this.widget.resetRound(),
+              onPressed: () => this.resetRound(),
               child: Icon(
                 Icons.autorenew_sharp,
                 size: 50,
