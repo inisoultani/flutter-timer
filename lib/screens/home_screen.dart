@@ -1,16 +1,24 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_timer/widgets/timer.dart';
+import 'package:flutter_timer/widgets/timer_control.dart';
 import 'package:intl/intl.dart';
+import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final StreamController<int> scStartRound = StreamController<int>();
+
+  final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
+  Icon startButtonIcon = Icon(Icons.play_arrow);
+  bool isStartRound = false;
+
   @override
   void initState() {
     super.initState();
@@ -18,6 +26,21 @@ class _HomeScreenState extends State<HomeScreen> {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
+  }
+
+  void startRound() {
+    setState(() {
+      this.isStartRound = !this.isStartRound;
+    });
+    print('homescreen startRound : ${this.isStartRound}');
+    this.scStartRound.add(this.isStartRound ? 1 : 0);
+  }
+
+  void resetRound() {
+    print('resetRound : ${this.isStartRound}');
+    if(this.isStartRound) {
+       this.scStartRound.add(2);
+    }
   }
 
   @override
@@ -153,44 +176,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    TimerWidget()
+                    TimerWidget(
+                      streamStartRound: this.scStartRound.stream,
+                    )
                   ],
                 ),
               ),
             ),
             SizedBox(height: 10),
-            Card(
-              elevation: 5,
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {}, 
-                      child: Icon(Icons.pause, size: 50,),
-                      style: ButtonStyle(
-                        backgroundColor:  MaterialStateProperty.all<Color>(Colors.green),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {}, 
-                      child: Icon(Icons.autorenew_sharp, size: 50,),
-                      style: ButtonStyle(
-                        backgroundColor:  MaterialStateProperty.all<Color>(Colors.yellow.shade700),
-                      ),
-                    ),
-                     ElevatedButton(
-                      onPressed: () {}, 
-                      child: Icon(Icons.double_arrow, size: 50,),
-                      style: ButtonStyle(
-                        backgroundColor:  MaterialStateProperty.all<Color>(Colors.green),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            TimerControl(
+                startRound: this.startRound, 
+                resetRound: this.resetRound,
+                isStartRound: this.isStartRound)
           ],
         ),
       ),
