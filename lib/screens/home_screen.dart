@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_timer/widgets/rounds.dart';
 import 'package:flutter_timer/widgets/timer.dart';
 import 'package:flutter_timer/widgets/timer_control.dart';
 import 'package:intl/intl.dart';
@@ -14,10 +15,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final StreamController<int> scStartRound = StreamController<int>();
+  final StreamController<int> scNextRound = StreamController<int>();
+  final StreamController<int> scController = StreamController<int>.broadcast();
 
   final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
   Icon startButtonIcon = Icon(Icons.play_arrow);
-  bool isStartRound = false;
+  int isStartRound = 0;
+  bool isRoundAlreadyStarted = false;
 
   @override
   void initState() {
@@ -26,21 +30,50 @@ class _HomeScreenState extends State<HomeScreen> {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
+
+    scController.stream.asBroadcastStream().listen((event) {
+      print('event : $event');
+      switch (event) {
+        case 1:
+          setState(() {
+            this.isStartRound = 2;
+          });
+          break;
+      }
+    });
   }
 
-  void startRound() {
+  void startRound({bool isNext = false}) {
     setState(() {
-      this.isStartRound = !this.isStartRound;
+      this.isStartRound = this.isStartRound == 1 ? 0 : 1;
+      if (!this.isRoundAlreadyStarted) {
+        this.isRoundAlreadyStarted = true;
+        this.scNextRound.add(1);
+      }
     });
     print('homescreen startRound : ${this.isStartRound}');
-    this.scStartRound.add(this.isStartRound ? 1 : 0);
+    if(isNext) {
+      this.scStartRound.add(2);
+    } else {
+      this.scStartRound.add(this.isStartRound);
+    }
   }
 
   void resetRound() {
     print('resetRound : ${this.isStartRound}');
-    if(this.isStartRound) {
-       this.scStartRound.add(2);
+    if (this.isStartRound == 1) {
+      this.scStartRound.add(2);
     }
+    // setState(() {
+    //   this.isStartRound = 0;
+    //   this.isRoundAlreadyStarted = false;
+    // });
+  }
+
+  void nextRound() {
+    this.resetRound();
+    this.scNextRound.add(1);
+    this.startRound(isNext: true);
   }
 
   @override
@@ -73,77 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       ],
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          width: 120,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.yellow.shade800.withOpacity(0.6),
-                                Colors.yellow
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Icon(
-                            Icons.star,
-                            size: 15,
-                          ),
-                        ),
-                        SizedBox(height: 2),
-                        Container(
-                          padding: const EdgeInsets.all(15),
-                          width: 120,
-                          child: Column(children: [
-                            Text(
-                              'ROUND',
-                              style: Theme.of(context).textTheme.title,
-                            ),
-                            Text(
-                              '5',
-                              style: TextStyle(
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ]),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.yellow.shade800.withOpacity(0.6),
-                                Colors.yellow
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        SizedBox(height: 2),
-                        Container(
-                          width: 120,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.yellow.shade800.withOpacity(0.6),
-                                Colors.yellow
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Icon(
-                            Icons.star,
-                            size: 15,
-                          ),
-                        )
-                      ],
+                    Rounds(
+                      streamNextRound: this.scNextRound.stream,
                     )
                   ],
                 ),
@@ -178,6 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     TimerWidget(
                       streamStartRound: this.scStartRound.stream,
+                      scController: this.scController,
                     )
                   ],
                 ),
@@ -185,8 +150,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 10),
             TimerControl(
-                startRound: this.startRound, 
+                startRound: this.startRound,
                 resetRound: this.resetRound,
+                nextRound: this.nextRound,
+                streamController: this.scController.stream.asBroadcastStream(),
                 isStartRound: this.isStartRound)
           ],
         ),

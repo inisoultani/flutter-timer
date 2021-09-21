@@ -5,15 +5,30 @@ class TimerControl extends StatelessWidget {
   // final Function startTimer;
   final Function startRound;
   final Function resetRound;
-  final bool isStartRound;
+  final Function nextRound;
+  int isStartRound;
+  final Stream<int> streamController;
 
-  const TimerControl(
-      {Key? key, required this.startRound, required this.isStartRound, required this.resetRound})
-      : super(key: key);
+  TimerControl(
+      {Key? key,
+      required this.startRound,
+      required this.isStartRound,
+      required this.resetRound,
+      required this.nextRound,
+      required this.streamController}) {
+    // this.streamController.listen((event) {
+    //   print('event : $event');
+    //   switch (event) {
+    //     case 1:
+    //       this.isStartRound = false;
+    //       break;
+    //   }
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
-    print('rebuild timer-controller');
+    print('rebuild timer-controller : ${this.isStartRound}');
     return Card(
       elevation: 5,
       child: Padding(
@@ -22,9 +37,9 @@ class TimerControl extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              onPressed: () => this.startRound(),
+              onPressed: this.isStartRound == 2 ? null : () => this.startRound(),
               child: Icon(
-                this.isStartRound ? Icons.pause : Icons.play_arrow,
+                this.isStartRound == 1 ? Icons.pause : Icons.play_arrow,
                 size: 50,
               ),
               style: ButtonStyle(
@@ -32,7 +47,7 @@ class TimerControl extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () => this.resetRound(),
+              onPressed: this.isStartRound == 1 ? () => this.resetRound() : null,
               child: Icon(
                 Icons.autorenew_sharp,
                 size: 50,
@@ -43,7 +58,7 @@ class TimerControl extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () => this.nextRound(),
               child: Icon(
                 Icons.double_arrow,
                 size: 50,
