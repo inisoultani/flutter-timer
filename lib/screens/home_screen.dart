@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
   Icon startButtonIcon = Icon(Icons.play_arrow);
-  int isStartRound = 0;
+  int startRoundState = 0;
   bool isRoundAlreadyStarted = false;
 
   @override
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       switch (event) {
         case 1:
           setState(() {
-            this.isStartRound = 2;
+            this.startRoundState = 2;
           });
           break;
       }
@@ -45,27 +45,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void startRound({bool isNext = false}) {
     setState(() {
-      this.isStartRound = this.isStartRound == 1 ? 0 : 1;
+      this.startRoundState = this.startRoundState == 1 ? 0 : 1;
       if (!this.isRoundAlreadyStarted) {
         this.isRoundAlreadyStarted = true;
         this.scNextRound.add(1);
       }
     });
-    print('homescreen startRound : ${this.isStartRound}');
+    print('homescreen startRound : ${this.startRoundState}');
     if(isNext) {
       this.scStartRound.add(2);
     } else {
-      this.scStartRound.add(this.isStartRound);
+      this.scStartRound.add(this.startRoundState);
     }
   }
 
   void resetRound() {
-    print('resetRound : ${this.isStartRound}');
-    if (this.isStartRound == 1) {
+    print('resetRound : ${this.startRoundState}');
+    if (this.startRoundState == 1) {
       this.scStartRound.add(2);
     }
     // setState(() {
-    //   this.isStartRound = 0;
+    //   this.startRoundState = 0;
     //   this.isRoundAlreadyStarted = false;
     // });
   }
@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 resetRound: this.resetRound,
                 nextRound: this.nextRound,
                 streamController: this.scController.stream.asBroadcastStream(),
-                isStartRound: this.isStartRound)
+                startRoundState: this.startRoundState)
           ],
         ),
       ),

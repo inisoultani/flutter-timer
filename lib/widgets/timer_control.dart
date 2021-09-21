@@ -6,13 +6,13 @@ class TimerControl extends StatelessWidget {
   final Function startRound;
   final Function resetRound;
   final Function nextRound;
-  int isStartRound;
+  int startRoundState;
   final Stream<int> streamController;
 
   TimerControl(
       {Key? key,
       required this.startRound,
-      required this.isStartRound,
+      required this.startRoundState,
       required this.resetRound,
       required this.nextRound,
       required this.streamController}) {
@@ -20,7 +20,7 @@ class TimerControl extends StatelessWidget {
     //   print('event : $event');
     //   switch (event) {
     //     case 1:
-    //       this.isStartRound = false;
+    //       this.startRoundState = false;
     //       break;
     //   }
     // });
@@ -28,7 +28,7 @@ class TimerControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('rebuild timer-controller : ${this.isStartRound}');
+    print('rebuild timer-controller : ${this.startRoundState}');
     return Card(
       elevation: 5,
       child: Padding(
@@ -37,9 +37,9 @@ class TimerControl extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              onPressed: this.isStartRound == 2 ? null : () => this.startRound(),
+              onPressed: this.startRoundState == 2 ? null : () => this.startRound(),
               child: Icon(
-                this.isStartRound == 1 ? Icons.pause : Icons.play_arrow,
+                this.startRoundState == 1 ? Icons.pause : Icons.play_arrow,
                 size: 50,
               ),
               style: ButtonStyle(
@@ -47,7 +47,7 @@ class TimerControl extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: this.isStartRound == 1 ? () => this.resetRound() : null,
+              onPressed: this.startRoundState == 1 ? () => this.resetRound() : null,
               child: Icon(
                 Icons.autorenew_sharp,
                 size: 50,
