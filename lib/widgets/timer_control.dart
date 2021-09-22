@@ -31,6 +31,9 @@ class TimerControl extends StatelessWidget {
     print('rebuild timer-controller : ${this.startRoundState}');
     return Card(
       elevation: 5,
+      shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15)
+              ),
       child: Padding(
         padding: EdgeInsets.all(20),
         child: Row(

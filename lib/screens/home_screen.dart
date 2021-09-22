@@ -85,6 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Card(
               elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15)
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
@@ -116,6 +119,9 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 10),
             Card(
               elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15)
+              ),
               child: Container(
                 width: double.infinity,
                 height: 350,
@@ -158,6 +164,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+      floatingActionButton: SizedBox(
+        width: 45,
+        height: 45,
+        child: FloatingActionButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(9)
+          ),
+          onPressed: () {},
+          child: Icon(Icons.settings_outlined),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
     );
   }
 }

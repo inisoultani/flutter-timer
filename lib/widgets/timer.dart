@@ -30,7 +30,8 @@ class TimerWidgetState extends State<TimerWidget> {
     super.initState();
 
     widget.streamStartRound.listen((startRound) {
-      print('startRound : $startRound && this.duration.inSeconds : ${this.duration.inSeconds}');
+      print(
+          'startRound : $startRound && this.duration.inSeconds : ${this.duration.inSeconds}');
       if (startRound == 1 && this.duration.inSeconds != 0) {
         this.startTimer();
       } else if (startRound == 0) {
@@ -61,6 +62,11 @@ class TimerWidgetState extends State<TimerWidget> {
         timer = null;
         this.timeCardColor = Colors.red;
         playBellLocal(3);
+        // for (int x = 0; x < 3; x++) {
+        //   Future.delayed(Duration(milliseconds: (1150 * x)), () {
+        //     playBellLocal(1);
+        //   });
+        // }
         this.widget.scController.add(1);
       }
     });
