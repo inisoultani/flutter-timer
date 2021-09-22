@@ -79,89 +79,100 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15)
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          DateFormat('EEE, d MMM').format(DateTime.now()),
-                          style: TextStyle(
-                            fontSize: 25,
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.deepPurple.shade600
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              Card(
+                elevation: 1,
+                color: Colors.deepPurple.shade700,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            DateFormat('EEE, d MMM').format(DateTime.now()),
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold
+                            ),
                           ),
-                        ),
-                        Text(
-                          DateFormat('h:mm a').format(DateTime.now()),
-                          style: TextStyle(
-                            fontSize: 45,
-                          ),
-                        )
-                      ],
-                    ),
-                    Rounds(
-                      streamNextRound: this.scNextRound.stream,
-                    )
-                  ],
+                          Text(
+                            DateFormat('h:mm a').format(DateTime.now()),
+                            style: TextStyle(
+                              fontSize: 45,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold
+                            ),
+                          )
+                        ],
+                      ),
+                      Rounds(
+                        streamNextRound: this.scNextRound.stream,
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15)
-              ),
-              child: Container(
-                width: double.infinity,
-                height: 350,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
-                      ),
-                      // child: Image.network(
-                      //   this.imageUrl,
-                      //   height: 250,
-                      //   width: double.infinity,
-                      //   fit: BoxFit.cover,
-                      // ),
-                      child: Container(
-                        height: 140,
-                        child: Image.asset(
-                          'assets/images/sjj-brown-triangle-300.png',
+              SizedBox(height: 10),
+              Card(
+                elevation: 1,
+                color: Colors.deepPurple.shade700,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)
+                ),
+                child: Container(
+                  width: double.infinity,
+                  height: 350,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                        ),
+                        // child: Image.network(
+                        //   this.imageUrl,
+                        //   height: 250,
+                        //   width: double.infinity,
+                        //   fit: BoxFit.cover,
+                        // ),
+                        child: Container(
+                          height: 140,
+                          child: Image.asset(
+                            'assets/images/sjj-brown-triangle-300.png',
+                          ),
                         ),
                       ),
-                    ),
-                    TimerWidget(
-                      streamStartRound: this.scStartRound.stream,
-                      scController: this.scController,
-                    )
-                  ],
+                      TimerWidget(
+                        streamStartRound: this.scStartRound.stream,
+                        scController: this.scController,
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            TimerControl(
-                startRound: this.startRound,
-                resetRound: this.resetRound,
-                nextRound: this.nextRound,
-                streamController: this.scController.stream.asBroadcastStream(),
-                startRoundState: this.startRoundState)
-          ],
+              SizedBox(height: 10),
+              TimerControl(
+                  startRound: this.startRound,
+                  resetRound: this.resetRound,
+                  nextRound: this.nextRound,
+                  streamController: this.scController.stream.asBroadcastStream(),
+                  startRoundState: this.startRoundState)
+            ],
+          ),
         ),
       ),
       floatingActionButton: SizedBox(

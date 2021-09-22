@@ -35,7 +35,7 @@ class _RoundsState extends State<Rounds> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
           ),
           child: Icon(
             Icons.star,
@@ -49,7 +49,10 @@ class _RoundsState extends State<Rounds> {
           child: Column(children: [
             Text(
               'ROUND',
-              style: Theme.of(context).textTheme.title,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
             Text(
               '${this.roundsCount}',
@@ -65,7 +68,7 @@ class _RoundsState extends State<Rounds> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(5),
+            //borderRadius: BorderRadius.circular(5),
           ),
         ),
         SizedBox(height: 2),
@@ -78,7 +81,7 @@ class _RoundsState extends State<Rounds> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
           ),
           child: Icon(
             Icons.star,

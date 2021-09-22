@@ -30,7 +30,8 @@ class TimerControl extends StatelessWidget {
   Widget build(BuildContext context) {
     print('rebuild timer-controller : ${this.startRoundState}');
     return Card(
-      elevation: 5,
+      elevation: 1,
+      color: Colors.deepPurple.shade700,
       shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15)
               ),
