@@ -21,12 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final StreamController<int> scNextRound = StreamController<int>();
   final StreamController<int> scController = StreamController<int>.broadcast();
   final StreamController<String> scBJJLogo = StreamController<String>();
+  final StreamController<int> scRoundDuration = StreamController<int>();
 
   final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
   Icon startButtonIcon = Icon(Icons.play_arrow);
   int startRoundState = 0;
   bool isRoundAlreadyStarted = false;
   String imagePath = 'assets/images/sjj-double-circle-15.png';
+  int roundDuration = 3; // minutes
 
   @override
   void initState() {
@@ -97,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
           resetRound: this.resetRound,
           nextRound: this.nextRound,
           scBJJLogo: this.scBJJLogo,
+          scRoundDuration: this.scRoundDuration,
           startRoundState: this.startRoundState),
       body: Container(
         decoration: BoxDecoration(color: Colors.deepPurple.shade600),
@@ -156,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       BJJLogo(imagePath: imagePath),
                       TimerWidget(
+                        streamRoundDuration: this.scRoundDuration.stream,
                         streamStartRound: this.scStartRound.stream,
                         scController: this.scController,
                       )

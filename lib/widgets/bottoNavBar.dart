@@ -12,13 +12,14 @@ class BottomNavbar extends StatefulWidget {
   final Function nextRound;
   final int startRoundState;
   final StreamController<String> scBJJLogo;
-
+  final StreamController<int> scRoundDuration;
   const BottomNavbar(
       {Key? key,
       required this.resetRound,
       required this.nextRound,
       required this.startRoundState,
-      required this.scBJJLogo})
+      required this.scBJJLogo,
+      required this.scRoundDuration})
       : super(key: key);
 
   @override
@@ -124,6 +125,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                         setState(() {
                           this._roundDuration = value;
                         });
+                        this.widget.scRoundDuration.add(value);
                       },
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),

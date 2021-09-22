@@ -6,8 +6,13 @@ import 'package:flutter/services.dart' show rootBundle;
 class TimerWidget extends StatefulWidget {
   final Stream<int> streamStartRound;
   final StreamController<int> scController;
+  final Stream<int> streamRoundDuration;
+
   const TimerWidget(
-      {Key? key, required this.streamStartRound, required this.scController})
+      {Key? key,
+      required this.streamStartRound,
+      required this.scController,
+      required this.streamRoundDuration})
       : super(key: key);
 
   @override
@@ -15,7 +20,7 @@ class TimerWidget extends StatefulWidget {
 }
 
 class TimerWidgetState extends State<TimerWidget> {
-  static const countdownDuration = Duration(seconds: 5);
+  Duration countdownDuration = Duration(seconds: 5);
   Timer? timer;
   Duration duration = Duration();
   MaterialColor timeCardColor = Colors.green;
@@ -41,6 +46,15 @@ class TimerWidgetState extends State<TimerWidget> {
         this.startTimer();
       }
     });
+
+    widget.streamRoundDuration.listen((newRoundDuration) {
+      print('newRoundDuration : $newRoundDuration');
+      setState(() {
+        this.countdownDuration = Duration(minutes: newRoundDuration);
+      });
+      reset();
+    });
+
     reset();
   }
 
@@ -90,6 +104,7 @@ class TimerWidgetState extends State<TimerWidget> {
     timer?.cancel();
     timer = null;
     if (isCountdown) {
+      print('countdownDuration : ${countdownDuration.inMinutes}');
       setState(() => duration = countdownDuration);
     } else {
       setState(() => duration = Duration());
