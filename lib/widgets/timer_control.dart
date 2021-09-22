@@ -44,7 +44,7 @@ class TimerControl extends StatelessWidget {
               onPressed: this.startRoundState == 2 ? null : () => this.startRound(),
               child: Icon(
                 this.startRoundState == 1 ? Icons.pause : Icons.play_arrow,
-                size: 50,
+                size: 35,
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
@@ -54,7 +54,7 @@ class TimerControl extends StatelessWidget {
               onPressed: this.startRoundState == 1 ? () => this.resetRound() : null,
               child: Icon(
                 Icons.autorenew_sharp,
-                size: 50,
+                size: 35,
               ),
               style: ButtonStyle(
                 backgroundColor:
@@ -65,10 +65,20 @@ class TimerControl extends StatelessWidget {
               onPressed: () => this.nextRound(),
               child: Icon(
                 Icons.double_arrow,
-                size: 50,
+                size: 35,
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: Icon(
+                Icons.settings_outlined,
+                size: 35,
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
             ),
           ],

@@ -22,26 +22,28 @@ class _RoundsState extends State<Rounds> {
     });
   }
 
+  Widget starDecoration(BorderRadius borderRadius) {
+    return Container(
+      width: 120,
+      height: 20,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.yellow.shade800.withOpacity(0.6), Colors.yellow],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: borderRadius,
+      ),
+      child: Icon(Icons.star, size: 15, color: Colors.white),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: 120,
-          height: 20,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.yellow.shade800.withOpacity(0.6), Colors.yellow],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-          ),
-          child: Icon(
-            Icons.star,
-            size: 15,
-          ),
-        ),
+        starDecoration(BorderRadius.only(
+            topLeft: Radius.circular(5), topRight: Radius.circular(5))) ,
         SizedBox(height: 2),
         Container(
           padding: const EdgeInsets.all(15),
@@ -72,22 +74,8 @@ class _RoundsState extends State<Rounds> {
           ),
         ),
         SizedBox(height: 2),
-        Container(
-          width: 120,
-          height: 20,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.yellow.shade800.withOpacity(0.6), Colors.yellow],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
-          ),
-          child: Icon(
-            Icons.star,
-            size: 15,
-          ),
-        )
+        starDecoration(BorderRadius.only(
+            bottomLeft: Radius.circular(5),  bottomRight: Radius.circular(5))) 
       ],
     );
   }

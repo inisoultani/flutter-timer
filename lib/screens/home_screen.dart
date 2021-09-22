@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_timer/widgets/bottoNavBar.dart';
+import 'package:flutter_timer/widgets/floatingButton.dart';
 import 'package:flutter_timer/widgets/rounds.dart';
 import 'package:flutter_timer/widgets/timer.dart';
 import 'package:flutter_timer/widgets/timer_control.dart';
@@ -52,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
     print('homescreen startRound : ${this.startRoundState}');
-    if(isNext) {
+    if (isNext) {
       this.scStartRound.add(2);
     } else {
       this.scStartRound.add(this.startRoundState);
@@ -79,10 +81,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: StartFloatingButton(
+        startRound: this.startRound,
+        startRoundState: this.startRoundState
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+      bottomNavigationBar: BottomNavbar(
+        resetRound: this.resetRound,
+        nextRound: this.nextRound,
+        startRoundState: this.startRoundState
+      ),
       body: Container(
-        decoration: BoxDecoration(
-          color: Colors.deepPurple.shade600
-        ),
+        decoration: BoxDecoration(color: Colors.deepPurple.shade600),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -91,8 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 elevation: 1,
                 color: Colors.deepPurple.shade700,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)
-                ),
+                    borderRadius: BorderRadius.circular(15)),
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Row(
@@ -103,18 +112,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             DateFormat('EEE, d MMM').format(DateTime.now()),
                             style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold
-                            ),
+                                fontSize: 25,
+                                color: Colors.white,
+                                ),
                           ),
                           Text(
                             DateFormat('h:mm a').format(DateTime.now()),
                             style: TextStyle(
-                              fontSize: 45,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold
-                            ),
+                                fontSize: 45,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
@@ -130,8 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 elevation: 1,
                 color: Colors.deepPurple.shade700,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)
-                ),
+                    borderRadius: BorderRadius.circular(15)),
                 child: Container(
                   width: double.infinity,
                   height: 350,
@@ -152,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Container(
                           height: 140,
                           child: Image.asset(
-                            'assets/images/sjj-brown-triangle-300.png',
+                            'assets/images/sjj-double-circle-15.png',
                           ),
                         ),
                       ),
@@ -165,28 +171,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 10),
-              TimerControl(
-                  startRound: this.startRound,
-                  resetRound: this.resetRound,
-                  nextRound: this.nextRound,
-                  streamController: this.scController.stream.asBroadcastStream(),
-                  startRoundState: this.startRoundState)
+              // TimerControl(
+              //     startRound: this.startRound,
+              //     resetRound: this.resetRound,
+              //     nextRound: this.nextRound,
+              //     streamController:
+              //         this.scController.stream.asBroadcastStream(),
+              //     startRoundState: this.startRoundState
+              // ),
             ],
           ),
         ),
       ),
-      floatingActionButton: SizedBox(
-        width: 45,
-        height: 45,
-        child: FloatingActionButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(9)
-          ),
-          onPressed: () {},
-          child: Icon(Icons.settings_outlined),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
     );
   }
 }
