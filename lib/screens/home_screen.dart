@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_timer/widgets/bjjLogo.dart';
 import 'package:flutter_timer/widgets/bottoNavBar.dart';
 import 'package:flutter_timer/widgets/floatingButton.dart';
 import 'package:flutter_timer/widgets/rounds.dart';
@@ -19,11 +20,13 @@ class _HomeScreenState extends State<HomeScreen> {
   final StreamController<int> scStartRound = StreamController<int>();
   final StreamController<int> scNextRound = StreamController<int>();
   final StreamController<int> scController = StreamController<int>.broadcast();
+  final StreamController<String> scBJJLogo = StreamController<String>();
 
   final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
   Icon startButtonIcon = Icon(Icons.play_arrow);
   int startRoundState = 0;
   bool isRoundAlreadyStarted = false;
+  String imagePath = 'assets/images/sjj-double-circle-15.png';
 
   @override
   void initState() {
@@ -42,6 +45,12 @@ class _HomeScreenState extends State<HomeScreen> {
           });
           break;
       }
+    });
+
+    scBJJLogo.stream.asBroadcastStream().listen((newImagePath) {
+      setState(() {
+        this.imagePath = newImagePath;
+      });
     });
   }
 
@@ -82,22 +91,22 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: StartFloatingButton(
-        startRound: this.startRound,
-        startRoundState: this.startRoundState
-      ),
+          startRound: this.startRound, startRoundState: this.startRoundState),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
       bottomNavigationBar: BottomNavbar(
-        resetRound: this.resetRound,
-        nextRound: this.nextRound,
-        startRoundState: this.startRoundState
-      ),
+          resetRound: this.resetRound,
+          nextRound: this.nextRound,
+          scBJJLogo: this.scBJJLogo,
+          startRoundState: this.startRoundState),
       body: Container(
         decoration: BoxDecoration(color: Colors.deepPurple.shade600),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Card(
                 elevation: 1,
                 color: Colors.deepPurple.shade700,
@@ -113,9 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             DateFormat('EEE, d MMM').format(DateTime.now()),
                             style: TextStyle(
-                                fontSize: 25,
-                                color: Colors.white,
-                                ),
+                              fontSize: 25,
+                              color: Colors.white,
+                            ),
                           ),
                           Text(
                             DateFormat('h:mm a').format(DateTime.now()),
@@ -145,24 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
-                        ),
-                        // child: Image.network(
-                        //   this.imageUrl,
-                        //   height: 250,
-                        //   width: double.infinity,
-                        //   fit: BoxFit.cover,
-                        // ),
-                        child: Container(
-                          height: 140,
-                          child: Image.asset(
-                            'assets/images/sjj-double-circle-15.png',
-                          ),
-                        ),
-                      ),
+                      BJJLogo(imagePath: imagePath),
                       TimerWidget(
                         streamStartRound: this.scStartRound.stream,
                         scController: this.scController,

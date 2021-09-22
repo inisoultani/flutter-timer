@@ -11,11 +11,14 @@ class BottomNavbar extends StatefulWidget {
   final Function resetRound;
   final Function nextRound;
   final int startRoundState;
+  final StreamController<String> scBJJLogo;
+
   const BottomNavbar(
       {Key? key,
       required this.resetRound,
       required this.nextRound,
-      required this.startRoundState})
+      required this.startRoundState,
+      required this.scBJJLogo})
       : super(key: key);
 
   @override
@@ -66,6 +69,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
         String newFileName = '${directory.path}/logo-${getRandomString(4)}.png';
         print('destination file : $newFileName');
         selectedFile!.copy(newFileName);
+        this.widget.scBJJLogo.add(newFileName);
         /*
         I/flutter (21249): file path : /data/user/0/com.example.flutter_timer/cache/file_picker/images.jpeg
         I/flutter (21249): file uri : file:///data/user/0/com.example.flutter_timer/cache/file_picker/images.jpeg
