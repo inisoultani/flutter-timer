@@ -1,5 +1,11 @@
+import 'dart:io';
+import 'dart:async';
+import 'dart:math';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class BottomNavbar extends StatefulWidget {
   final Function resetRound;
@@ -18,6 +24,10 @@ class BottomNavbar extends StatefulWidget {
 
 class _BottomNavbarState extends State<BottomNavbar> {
   int _roundDuration = 5; // minutes
+  File? selectedFile;
+  final _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
 
   Widget createNavbarButton(
       String toolTip, Widget icon, Function()? onPressed) {
@@ -35,40 +45,76 @@ class _BottomNavbarState extends State<BottomNavbar> {
         ));
   }
 
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+  Future selectLogoToUse() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+          allowMultiple: false,
+          type: FileType.custom,
+          allowedExtensions: ['jpg', 'png']);
+
+      if (result != null) {
+        setState(() {
+          selectedFile = File(result.files.single.path!);
+        });
+        print('file path : ${selectedFile?.path}');
+        print('file uri : ${selectedFile?.uri}');
+
+        final directory = await getApplicationDocumentsDirectory();
+        String newFileName = '${directory.path}/logo-${getRandomString(4)}.png';
+        print('destination file : $newFileName');
+        selectedFile!.copy(newFileName);
+        /*
+        I/flutter (21249): file path : /data/user/0/com.example.flutter_timer/cache/file_picker/images.jpeg
+        I/flutter (21249): file uri : file:///data/user/0/com.example.flutter_timer/cache/file_picker/images.jpeg
+        I/flutter (21249): destination file : /data/user/0/com.example.flutter_timer/app_flutter/logo111.png
+        */
+      } else {
+        print('user canceled the file selection');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   void openBottomSheet(BuildContext context) {
     showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-      ),
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+        ),
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
             return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: new Icon(Icons.photo),
-                title: new Text('Change Logo'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: new Icon(Icons.timelapse),
-                title: new Text('Round Duration'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              Container(
-                child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: new Icon(Icons.photo),
+                  title: new Text('Change Logo'),
+                  onTap: () {
+                    //Navigator.pop(context);
+                    selectLogoToUse();
+                  },
+                ),
+                ListTile(
+                  leading: new Icon(Icons.timelapse),
+                  title: new Text('Round Duration'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                Container(
+                    child: Column(
                   children: [
-                      NumberPicker(
+                    NumberPicker(
                       value: this._roundDuration,
                       minValue: 1,
                       maxValue: 30,
-                      step : 1,
+                      step: 1,
                       axis: Axis.horizontal,
                       onChanged: (value) {
                         setState(() {
@@ -80,7 +126,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
                         border: Border.all(color: Colors.black26),
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -102,12 +150,11 @@ class _BottomNavbarState extends State<BottomNavbar> {
                       ],
                     ),
                   ],
-                )
-              ),
-            ],
-          );
+                )),
+              ],
+            );
+          });
         });
-      });
   }
 
   @override

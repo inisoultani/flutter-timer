@@ -97,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
+              SizedBox(height: 20,),
               Card(
                 elevation: 1,
                 color: Colors.deepPurple.shade700,
