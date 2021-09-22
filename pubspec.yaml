@@ -52,9 +52,9 @@ flutter:
     - assets/images/rootsorange-15.png
     - assets/images/sjj-double-circle-15.png
     - assets/images/sjj-brown-triangle-300.png
-    - assets/audios/boxing_bell_start.mp3
-    - assets/audios/boxing_bell_mid.mp3
-    - assets/audios/boxing_bell_end.mp3
+    - assets/audios/boxing_bell_1.m4a
+    - assets/audios/boxing_bell_2.m4a
+    - assets/audios/boxing_bell_3.m4a
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

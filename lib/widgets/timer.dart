@@ -116,13 +116,13 @@ class TimerWidgetState extends State<TimerWidget> {
     String fileName = '';
     switch (code) {
       case 1:
-        fileName = 'assets/audios/boxing_bell_end.mp3';
+        fileName = 'assets/audios/boxing_bell_1.m4a';
         break;
       case 2:
-        fileName = 'assets/audios/boxing_bell_mid.mp3';
+        fileName = 'assets/audios/boxing_bell_2.m4a';
         break;
       case 3:
-        fileName = 'assets/audios/boxing_bell_start.mp3';
+        fileName = 'assets/audios/boxing_bell_3.m4a';
         break;
     }
 
