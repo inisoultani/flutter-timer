@@ -106,6 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
                 height: 20,
@@ -146,18 +148,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 10),
+              //BJJLogo(imagePath: imagePath),
               Card(
+                margin: EdgeInsets.only(top: 50),
+                clipBehavior: Clip.none,
                 elevation: 1,
                 color: Colors.deepPurple.shade700,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 child: Container(
                   width: double.infinity,
-                  height: 350,
+                  height: 250,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       BJJLogo(imagePath: imagePath),
+                      SizedBox(height: 20,),
                       TimerWidget(
                         streamRoundDuration: this.scRoundDuration.stream,
                         streamStartRound: this.scStartRound.stream,
@@ -168,6 +174,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 10),
+              SizedBox(
+                
+                width: 200,
+                child: Card(
+                  clipBehavior: Clip.none,
+                  elevation: 1,
+                  
+                  color: Colors.deepPurple.shade700,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Container(
+                    width: double.infinity,
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Icon(Icons.av_timer, color: Colors.white, size: 30,),
+                        Text('2', style: TextStyle(
+                          color :  Colors.white,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold
+                        ),),
+                        SizedBox(width: 40,),
+                        Icon(Icons.calendar_view_day_rounded, color: Colors.white, size: 30,),
+                        Text('2', style: TextStyle(
+                          color :  Colors.white,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold
+                        ),),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               // TimerControl(
               //     startRound: this.startRound,
               //     resetRound: this.resetRound,

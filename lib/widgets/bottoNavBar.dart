@@ -96,6 +96,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
               builder: (BuildContext context, StateSetter setState) {
             return Column(
               mainAxisSize: MainAxisSize.min,
+              
               children: [
                 ListTile(
                   leading: new Icon(Icons.photo),

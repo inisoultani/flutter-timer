@@ -15,20 +15,38 @@ class BJJLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(15),
-        topRight: Radius.circular(15),
+    return Container(
+      height: 0,
+      constraints: BoxConstraints.loose(Size.fromHeight(100.0)),
+      //color: Colors.black,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(15)),
+        color: Colors.blueAccent,
       ),
-      // child: Image.network(
-      //   this.imageUrl,
-      //   height: 250,
-      //   width: double.infinity,
-      //   fit: BoxFit.cover,
-      // ),
-      child: Container(
-        height: 140,
-        child: buildImageWidget(),
+      child: Stack(
+        fit: StackFit.loose,
+        alignment: Alignment.topCenter,
+        overflow: Overflow.visible,
+        children: [
+          Positioned(
+            // left: -35,
+            top: -70,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              // child: Image.network(
+              //   this.imageUrl,
+              //   height: 250,
+              //   width: double.infinity,
+              //   fit: BoxFit.cover,
+              // ),
+              child: Container(
+                height: 100,
+                child: buildImageWidget(),
+              ),
+            ),
+          ),
+        ],
+        clipBehavior: Clip.none,
       ),
     );
   }
