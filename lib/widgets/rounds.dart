@@ -57,13 +57,13 @@ class _RoundsState extends State<Rounds> {
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
+            SizedBox(height: 5),
             Text(
               '${this.roundsCount}',
               style: TextStyle(
                   fontSize: 40,
-                  fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  fontFamily: 'SlopeOpera'),
+                  fontFamily: 'ChunkFive'),
             ),
           ]),
           decoration: BoxDecoration(

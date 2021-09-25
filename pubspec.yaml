@@ -80,6 +80,9 @@ flutter:
     - family: KumarOne
       fonts:
         - asset: assets/fonts/kumar_one.ttf
+    - family: ChunkFive
+      fonts:
+        - asset: assets/fonts/chunk_five.otf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

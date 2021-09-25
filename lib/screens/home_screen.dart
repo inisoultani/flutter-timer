@@ -205,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                                 fontSize: 45,
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,),
                           ),
                           RestAndRoundSetting(
                             defaultRestRoundDuration: this.restRoundDuration,
