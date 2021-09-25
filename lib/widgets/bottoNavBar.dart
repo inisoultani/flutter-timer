@@ -33,6 +33,9 @@ class BottomNavbar extends StatefulWidget {
 
 class _BottomNavbarState extends State<BottomNavbar> {
   int roundDuration = 5;
+  int restRoundDuration = 2;
+  int totalRounds = 1;
+
   File? selectedFile;
   final _chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
@@ -52,6 +55,32 @@ class _BottomNavbarState extends State<BottomNavbar> {
           'current duration : $roundDuration with new duration  $newRoundDuration');
       setState(() {
         this.roundDuration = newRoundDuration;
+      });
+    });
+
+    this
+        .widget
+        .scRestRoundDuration
+        .stream
+        .asBroadcastStream()
+        .listen((newRestRoundDuration) {
+      print(
+          'current duration : $newRestRoundDuration with new duration  $newRestRoundDuration');
+      setState(() {
+        this.restRoundDuration = newRestRoundDuration;
+      });
+    });
+
+    this
+        .widget
+        .scRoundsTotal
+        .stream
+        .asBroadcastStream()
+        .listen((newTotalRounds) {
+      print(
+          'current duration : $newTotalRounds with new duration  $newTotalRounds');
+      setState(() {
+        this.totalRounds = newTotalRounds;
       });
     });
   }
@@ -137,13 +166,13 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     title: 'Round Duration'),
                 SettingNumberPicker(
                     scSetting: this.widget.scRestRoundDuration,
-                    defaulValue: 2,
+                    defaulValue: this.restRoundDuration,
                     minValue: 1,
                     maxValue: 5,
                     title: 'Rest Round Duration'),
                 SettingNumberPicker(
                     scSetting: this.widget.scRoundsTotal,
-                    defaulValue: 1,
+                    defaulValue: this.totalRounds,
                     minValue: 1,
                     maxValue: 15,
                     title: 'Rounds'),

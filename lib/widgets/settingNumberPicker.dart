@@ -80,6 +80,7 @@ class _SettingNumberPickerState extends State<SettingNumberPicker> {
                     final newValue = this._currentValue - 1;
                     this._currentValue = newValue.clamp(
                         this.widget.minValue, this.widget.maxValue);
+                    this.widget.scSetting.add(_currentValue);
                   }),
                 ),
                 Text(' '),
@@ -89,6 +90,7 @@ class _SettingNumberPickerState extends State<SettingNumberPicker> {
                     final newValue = this._currentValue + 1;
                     this._currentValue = newValue.clamp(
                         this.widget.minValue, this.widget.maxValue);
+                    this.widget.scSetting.add(_currentValue);
                   }),
                 ),
               ],

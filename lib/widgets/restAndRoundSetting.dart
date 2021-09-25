@@ -1,7 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class RestAndRoundSetting extends StatefulWidget {
-  const RestAndRoundSetting({Key? key}) : super(key: key);
+  final Stream<int> streamRestRoundDuration;
+  final Stream<int> streamRoundTotal;
+  final int defaultRestRoundDuration;
+  final int defaultRoundTotal;
+  final StreamController<bool> scEnableSetting;
+
+  const RestAndRoundSetting(
+      {Key? key,
+      required this.streamRestRoundDuration,
+      required this.streamRoundTotal,
+      required this.defaultRestRoundDuration,
+      required this.defaultRoundTotal,
+      required this.scEnableSetting})
+      : super(key: key);
 
   @override
   _RestAndRoundSettingState createState() => _RestAndRoundSettingState();
@@ -9,12 +24,35 @@ class RestAndRoundSetting extends StatefulWidget {
 
 class _RestAndRoundSettingState extends State<RestAndRoundSetting> {
   bool isSettingEnabled = false;
+  int restRoundDuration = 2;
+  int roundTotal = 1;
+
+  @override
+  void initState() {
+    super.initState();
+
+    this.restRoundDuration = this.widget.defaultRestRoundDuration;
+    this.roundTotal = this.widget.defaultRoundTotal;
+
+    this.widget.streamRestRoundDuration.listen((newRestRoundDuration) {
+      setState(() {
+        this.restRoundDuration = newRestRoundDuration;
+      });
+    });
+
+    this.widget.streamRoundTotal.listen((newRoundTotal) {
+      setState(() {
+        this.roundTotal = newRoundTotal;
+      });
+    });
+  }
 
   void changeSettingStatus(bool? value) {
     if (value != null) {
       setState(() {
         this.isSettingEnabled = value;
       });
+      this.widget.scEnableSetting.add(value);
     }
   }
 
@@ -60,7 +98,7 @@ class _RestAndRoundSettingState extends State<RestAndRoundSetting> {
                   size: 30,
                 ),
                 Text(
-                  '2',
+                  '${this.restRoundDuration}',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 40,
@@ -75,7 +113,7 @@ class _RestAndRoundSettingState extends State<RestAndRoundSetting> {
                   size: 30,
                 ),
                 Text(
-                  '2',
+                  '${this.roundTotal}',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 40,

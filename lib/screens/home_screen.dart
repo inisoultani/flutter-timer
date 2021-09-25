@@ -22,9 +22,13 @@ class _HomeScreenState extends State<HomeScreen> {
   final StreamController<int> scNextRound = StreamController<int>();
   final StreamController<int> scController = StreamController<int>.broadcast();
   final StreamController<String> scBJJLogo = StreamController<String>();
-  final StreamController<int> scRoundDuration = StreamController<int>.broadcast();
-  final StreamController<int> scRoundRestDuration = StreamController<int>();
-  final StreamController<int> scRoundTotal = StreamController<int>();
+  final StreamController<int> scRoundDuration =
+      StreamController<int>.broadcast();
+  final StreamController<int> scRoundRestDuration =
+      StreamController<int>.broadcast();
+  final StreamController<int> scRoundTotal = StreamController<int>.broadcast();
+  final StreamController<bool> scEnableSetting =
+      StreamController<bool>.broadcast();
 
   final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
   Icon startButtonIcon = Icon(Icons.play_arrow);
@@ -34,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int roundDuration = 3; // minutes
   int restRoundDuration = 2;
   int roundsTotal = 1;
+  bool enableSetting = false;
 
   @override
   void initState() {
@@ -66,17 +71,26 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     });
 
-    // scRoundRestDuration.stream.asBroadcastStream().listen((newRestRoundDuration) {
-    //   setState(() {
-    //     this.restRoundDuration = newRestRoundDuration;
-    //   });
-    // });
+    scRoundRestDuration.stream
+        .asBroadcastStream()
+        .listen((newRestRoundDuration) {
+      setState(() {
+        this.restRoundDuration = newRestRoundDuration;
+      });
+    });
 
-    // scRoundTotal.stream.asBroadcastStream().listen((newRoundsTotal) {
-    //   setState(() {
-    //     this.roundsTotal = newRoundsTotal;
-    //   });
-    // });
+    scRoundTotal.stream.asBroadcastStream().listen((newRoundsTotal) {
+      setState(() {
+        this.roundsTotal = newRoundsTotal;
+      });
+    });
+
+    scEnableSetting.stream.asBroadcastStream().listen((newSettingValue) {
+      print('newSettingValue : $newSettingValue');
+      setState(() {
+        this.enableSetting = newSettingValue;
+      });
+    });
   }
 
   void startRound({bool isNext = false}) {
@@ -191,8 +205,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 20,
                       ),
                       TimerWidget(
-                        streamRoundDuration: this.scRoundDuration.stream.asBroadcastStream(),
-                        streamStartRound: this.scStartRound.stream.asBroadcastStream(),
+                        streamRoundDuration:
+                            this.scRoundDuration.stream.asBroadcastStream(),
+                        streamStartRound:
+                            this.scStartRound.stream.asBroadcastStream(),
                         scController: this.scController,
                       )
                     ],
@@ -200,7 +216,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 10),
-              RestAndRoundSetting()
+              RestAndRoundSetting(
+                defaultRestRoundDuration: this.restRoundDuration,
+                defaultRoundTotal: this.roundsTotal,
+                streamRestRoundDuration:
+                    this.scRoundRestDuration.stream.asBroadcastStream(),
+                streamRoundTotal: this.scRoundTotal.stream.asBroadcastStream(),
+                scEnableSetting: this.scEnableSetting,
+              )
               // TimerControl(
               //     startRound: this.startRound,
               //     resetRound: this.resetRound,
