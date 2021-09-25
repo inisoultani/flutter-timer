@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_timer/widgets/bjjLogo.dart';
 import 'package:flutter_timer/widgets/bottoNavBar.dart';
 import 'package:flutter_timer/widgets/floatingButton.dart';
+import 'package:flutter_timer/widgets/restAndRoundSetting.dart';
 import 'package:flutter_timer/widgets/rounds.dart';
 import 'package:flutter_timer/widgets/timer.dart';
 import 'package:flutter_timer/widgets/timer_control.dart';
@@ -21,7 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final StreamController<int> scNextRound = StreamController<int>();
   final StreamController<int> scController = StreamController<int>.broadcast();
   final StreamController<String> scBJJLogo = StreamController<String>();
-  final StreamController<int> scRoundDuration = StreamController<int>();
+  final StreamController<int> scRoundDuration = StreamController<int>.broadcast();
+  final StreamController<int> scRoundRestDuration = StreamController<int>();
+  final StreamController<int> scRoundTotal = StreamController<int>();
 
   final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
   Icon startButtonIcon = Icon(Icons.play_arrow);
@@ -29,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isRoundAlreadyStarted = false;
   String imagePath = 'assets/images/sjj-double-circle-15.png';
   int roundDuration = 3; // minutes
+  int restRoundDuration = 2;
+  int roundsTotal = 1;
 
   @override
   void initState() {
@@ -54,6 +59,24 @@ class _HomeScreenState extends State<HomeScreen> {
         this.imagePath = newImagePath;
       });
     });
+
+    scRoundDuration.stream.asBroadcastStream().listen((newRoundDuration) {
+      setState(() {
+        this.roundDuration = newRoundDuration;
+      });
+    });
+
+    // scRoundRestDuration.stream.asBroadcastStream().listen((newRestRoundDuration) {
+    //   setState(() {
+    //     this.restRoundDuration = newRestRoundDuration;
+    //   });
+    // });
+
+    // scRoundTotal.stream.asBroadcastStream().listen((newRoundsTotal) {
+    //   setState(() {
+    //     this.roundsTotal = newRoundsTotal;
+    //   });
+    // });
   }
 
   void startRound({bool isNext = false}) {
@@ -99,6 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
           resetRound: this.resetRound,
           nextRound: this.nextRound,
           scBJJLogo: this.scBJJLogo,
+          scRestRoundDuration: this.scRoundRestDuration,
+          scRoundsTotal: this.scRoundTotal,
           scRoundDuration: this.scRoundDuration,
           startRoundState: this.startRoundState),
       body: Container(
@@ -147,8 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-              //BJJLogo(imagePath: imagePath),
+              //SizedBox(height: 5),
               Card(
                 margin: EdgeInsets.only(top: 50),
                 clipBehavior: Clip.none,
@@ -163,10 +187,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       BJJLogo(imagePath: imagePath),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       TimerWidget(
-                        streamRoundDuration: this.scRoundDuration.stream,
-                        streamStartRound: this.scStartRound.stream,
+                        streamRoundDuration: this.scRoundDuration.stream.asBroadcastStream(),
+                        streamStartRound: this.scStartRound.stream.asBroadcastStream(),
                         scController: this.scController,
                       )
                     ],
@@ -174,40 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 10),
-              SizedBox(
-                
-                width: 200,
-                child: Card(
-                  clipBehavior: Clip.none,
-                  elevation: 1,
-                  
-                  color: Colors.deepPurple.shade700,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(Icons.av_timer, color: Colors.white, size: 30,),
-                        Text('2', style: TextStyle(
-                          color :  Colors.white,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold
-                        ),),
-                        SizedBox(width: 40,),
-                        Icon(Icons.calendar_view_day_rounded, color: Colors.white, size: 30,),
-                        Text('2', style: TextStyle(
-                          color :  Colors.white,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold
-                        ),),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              RestAndRoundSetting()
               // TimerControl(
               //     startRound: this.startRound,
               //     resetRound: this.resetRound,
