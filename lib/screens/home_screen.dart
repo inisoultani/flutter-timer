@@ -147,12 +147,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void nextRound() {
     this.resetRound();
-    this.scNextRound.add(1);
-    this.startRound(isNext: true);
+    //this.scNextRound.add(1);
     setState(() {
       // this.startRoundState = 0;
       this.isRoundAlreadyStarted = false;
     });
+    this.startRound(isNext: true);
+    
   }
 
   @override

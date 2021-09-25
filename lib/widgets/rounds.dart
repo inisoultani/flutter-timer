@@ -16,6 +16,7 @@ class _RoundsState extends State<Rounds> {
     super.initState();
 
     this.widget.streamNextRound.listen((round) {
+      print('next round : $round');
       setState(() {
         this.roundsCount += 1;
       });
@@ -43,7 +44,7 @@ class _RoundsState extends State<Rounds> {
     return Column(
       children: [
         starDecoration(BorderRadius.only(
-            topLeft: Radius.circular(5), topRight: Radius.circular(5))) ,
+            topLeft: Radius.circular(5), topRight: Radius.circular(5))),
         SizedBox(height: 2),
         Container(
           padding: const EdgeInsets.all(15),
@@ -61,7 +62,8 @@ class _RoundsState extends State<Rounds> {
               style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                  color: Colors.white,
+                  fontFamily: 'SlopeOpera'),
             ),
           ]),
           decoration: BoxDecoration(
@@ -75,7 +77,7 @@ class _RoundsState extends State<Rounds> {
         ),
         SizedBox(height: 2),
         starDecoration(BorderRadius.only(
-            bottomLeft: Radius.circular(5),  bottomRight: Radius.circular(5))) 
+            bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)))
       ],
     );
   }

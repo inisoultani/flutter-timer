@@ -195,7 +195,12 @@ class TimerWidgetState extends State<TimerWidget> {
           child: FittedBox(
             child: Text(
               '$time',
-              style: TextStyle(fontSize: 100, color: Colors.white),
+              style: TextStyle(
+                fontSize: 100, 
+                color: Colors.white,
+                fontFamily: 'TimeTrap',
+                fontStyle: FontStyle.italic
+              ),
             ),
           ),
           decoration: BoxDecoration(
