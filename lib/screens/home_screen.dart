@@ -176,6 +176,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 45,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
+                          ),
+                          RestAndRoundSetting(
+                            defaultRestRoundDuration: this.restRoundDuration,
+                            defaultRoundTotal: this.roundsTotal,
+                            streamRestRoundDuration:
+                                this.scRoundRestDuration.stream.asBroadcastStream(),
+                            streamRoundTotal: this.scRoundTotal.stream.asBroadcastStream(),
+                            scEnableSetting: this.scEnableSetting,
                           )
                         ],
                       ),
@@ -196,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(15)),
                 child: Container(
                   width: double.infinity,
-                  height: 250,
+                  height: 300,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -216,14 +224,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 10),
-              RestAndRoundSetting(
-                defaultRestRoundDuration: this.restRoundDuration,
-                defaultRoundTotal: this.roundsTotal,
-                streamRestRoundDuration:
-                    this.scRoundRestDuration.stream.asBroadcastStream(),
-                streamRoundTotal: this.scRoundTotal.stream.asBroadcastStream(),
-                scEnableSetting: this.scEnableSetting,
-              )
+              // RestAndRoundSetting(
+              //   defaultRestRoundDuration: this.restRoundDuration,
+              //   defaultRoundTotal: this.roundsTotal,
+              //   streamRestRoundDuration:
+              //       this.scRoundRestDuration.stream.asBroadcastStream(),
+              //   streamRoundTotal: this.scRoundTotal.stream.asBroadcastStream(),
+              //   scEnableSetting: this.scEnableSetting,
+              // )
               // TimerControl(
               //     startRound: this.startRound,
               //     resetRound: this.resetRound,

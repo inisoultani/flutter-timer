@@ -26,11 +26,10 @@ class BJJLogo extends StatelessWidget {
       child: Stack(
         fit: StackFit.loose,
         alignment: Alignment.topCenter,
-        overflow: Overflow.visible,
         children: [
           Positioned(
             // left: -35,
-            top: -70,
+            top: -75,
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(15)),
               // child: Image.network(
@@ -40,7 +39,7 @@ class BJJLogo extends StatelessWidget {
               //   fit: BoxFit.cover,
               // ),
               child: Container(
-                height: 100,
+                height: 140,
                 child: buildImageWidget(),
               ),
             ),

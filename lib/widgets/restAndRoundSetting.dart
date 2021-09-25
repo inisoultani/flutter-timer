@@ -73,11 +73,11 @@ class _RestAndRoundSettingState extends State<RestAndRoundSetting> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 300,
+      width: 210,
       child: Card(
           clipBehavior: Clip.none,
           elevation: 1,
-          color: Colors.deepPurple.shade700,
+          color: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: ListTile(
@@ -90,33 +90,39 @@ class _RestAndRoundSettingState extends State<RestAndRoundSetting> {
                   borderRadius: BorderRadius.all(Radius.circular(5))),
             ),
             title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Icon(
                   Icons.av_timer,
-                  color: Colors.white,
-                  size: 30,
+                  color: Colors.deepPurple,
+                  size: 25,
+                ),
+                SizedBox(
+                  width: 5,
                 ),
                 Text(
                   '${this.restRoundDuration}',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
+                      color: Colors.deepPurpleAccent,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
-                  width: 40,
+                  width: 20,
                 ),
                 Icon(
                   Icons.calendar_view_day_rounded,
-                  color: Colors.white,
-                  size: 30,
+                  color: Colors.deepPurple,
+                  size: 25,
+                ),
+                SizedBox(
+                  width: 5,
                 ),
                 Text(
                   '${this.roundTotal}',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
+                      color: Colors.deepPurpleAccent,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
               ],
