@@ -7,13 +7,18 @@ class TimerWidget extends StatefulWidget {
   final Stream<int> streamStartRound;
   final StreamController<int> scController;
   final Stream<int> streamRoundDuration;
-
-  const TimerWidget(
-      {Key? key,
-      required this.streamStartRound,
-      required this.scController,
-      required this.streamRoundDuration})
-      : super(key: key);
+  final StreamController<int> scRoundsCountdown;
+  final Stream<bool> streamEnableSetting;
+  final Stream<int> streamRestRoundDuration;
+  const TimerWidget({
+    Key? key,
+    required this.streamStartRound,
+    required this.scController,
+    required this.streamRoundDuration,
+    required this.scRoundsCountdown,
+    required this.streamEnableSetting,
+    required this.streamRestRoundDuration,
+  }) : super(key: key);
 
   @override
   TimerWidgetState createState() => TimerWidgetState();
@@ -27,8 +32,10 @@ class TimerWidgetState extends State<TimerWidget> {
   AudioPlayer audioPlayer = AudioPlayer();
 
   int warnTimeInSeconds = 60;
-
+  bool isSettingEnabled = false;
   bool isCountdown = true;
+  int restRoundDuration = 0;
+  bool isRestTimerActive = false;
 
   @override
   void initState() {
@@ -47,12 +54,24 @@ class TimerWidgetState extends State<TimerWidget> {
       }
     });
 
+    widget.streamEnableSetting.listen((newSettingValue) {
+      setState(() {
+        this.isSettingEnabled = newSettingValue;
+      });
+    });
+
     widget.streamRoundDuration.listen((newRoundDuration) {
       print('newRoundDuration : $newRoundDuration');
       setState(() {
         this.countdownDuration = Duration(minutes: newRoundDuration);
       });
       reset();
+    });
+
+    widget.streamRestRoundDuration.listen((newRestRoundDuration) {
+      setState(() {
+        this.restRoundDuration = newRestRoundDuration;
+      });
     });
 
     reset();
@@ -62,7 +81,11 @@ class TimerWidgetState extends State<TimerWidget> {
     final int secondsInterval = 1;
 
     setState(() {
-      final seconds = duration.inSeconds +
+      // int seconds;
+      // if (isSettingEnabled && isRestTimerActive) {
+      //   seconds = Duration(minutes: 5).inSeconds;
+      // }
+      final seconds = this.duration.inSeconds +
           (isCountdown ? (secondsInterval * -1) : secondsInterval);
       this.duration = Duration(seconds: seconds);
 
@@ -82,6 +105,17 @@ class TimerWidgetState extends State<TimerWidget> {
         //   });
         // }
         this.widget.scController.add(1);
+        if (isSettingEnabled) {
+          if (isRestTimerActive) {
+            setState(() {
+              this.isRestTimerActive = false;
+            });
+            this.widget.scRoundsCountdown.add(1);
+          } else {
+            reset();
+            startRestTimer();
+          }
+        }
       }
     });
   }
@@ -92,6 +126,21 @@ class TimerWidgetState extends State<TimerWidget> {
     // }
     timer =
         new Timer.periodic(Duration(seconds: 1), (timer) => addTimeBySeconds());
+  }
+
+  void startRestTimer() {
+    // if (timer == null) {
+    //playBellLocal(1);
+    // }
+    timer?.cancel();
+    timer = null;
+    timer =
+        new Timer.periodic(Duration(seconds: 1), (timer) => addTimeBySeconds());
+    setState(() {
+      duration = Duration(minutes: this.restRoundDuration);
+      timeCardColor = Colors.blue;
+      isRestTimerActive = true;
+    });
   }
 
   void pauseTimer() {

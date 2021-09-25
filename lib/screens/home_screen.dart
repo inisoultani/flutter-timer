@@ -29,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final StreamController<int> scRoundTotal = StreamController<int>.broadcast();
   final StreamController<bool> scEnableSetting =
       StreamController<bool>.broadcast();
+  final StreamController<int> scRoundsCountdown =
+      StreamController<int>.broadcast();
 
   final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
   Icon startButtonIcon = Icon(Icons.play_arrow);
@@ -38,7 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int roundDuration = 3; // minutes
   int restRoundDuration = 2;
   int roundsTotal = 1;
-  bool enableSetting = false;
+  bool isSettingEnabled = false;
+  int roundsCountDown = 0;
 
   @override
   void initState() {
@@ -88,8 +91,19 @@ class _HomeScreenState extends State<HomeScreen> {
     scEnableSetting.stream.asBroadcastStream().listen((newSettingValue) {
       print('newSettingValue : $newSettingValue');
       setState(() {
-        this.enableSetting = newSettingValue;
+        this.isSettingEnabled = newSettingValue;
       });
+    });
+
+    scRoundsCountdown.stream.asBroadcastStream().listen((countDown) {
+      setState(() {
+        this.roundsCountDown -= countDown;
+      });
+      print('102 countDown : $countDown');
+      print('102 this.roundsCountDown : ${this.roundsCountDown}');
+      if (this.roundsCountDown > 0) {
+        nextRound();
+      }
     });
   }
 
@@ -97,6 +111,12 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       this.startRoundState = this.startRoundState == 1 ? 0 : 1;
       if (!this.isRoundAlreadyStarted) {
+        if (isSettingEnabled && !(this.roundsCountDown > 0)) {
+          setState(() {
+            this.roundsCountDown = this.roundsTotal;
+          });
+           print('117 this.roundsCountDown : ${this.roundsCountDown}');
+        }
         this.isRoundAlreadyStarted = true;
         this.scNextRound.add(1);
       }
@@ -107,6 +127,11 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       this.scStartRound.add(this.startRoundState);
     }
+    // if (isSettingEnabled) {
+    //   setState(() {
+    //     this.roundsCountDown--;
+    //   });
+    // }
   }
 
   void resetRound() {
@@ -114,16 +139,20 @@ class _HomeScreenState extends State<HomeScreen> {
     if (this.startRoundState == 1) {
       this.scStartRound.add(2);
     }
-    // setState(() {
-    //   this.startRoundState = 0;
-    //   this.isRoundAlreadyStarted = false;
-    // });
+    setState(() {
+      // this.startRoundState = 0;
+      //this.isRoundAlreadyStarted = false;
+    });
   }
 
   void nextRound() {
     this.resetRound();
     this.scNextRound.add(1);
     this.startRound(isNext: true);
+    setState(() {
+      // this.startRoundState = 0;
+      this.isRoundAlreadyStarted = false;
+    });
   }
 
   @override
@@ -180,9 +209,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           RestAndRoundSetting(
                             defaultRestRoundDuration: this.restRoundDuration,
                             defaultRoundTotal: this.roundsTotal,
-                            streamRestRoundDuration:
-                                this.scRoundRestDuration.stream.asBroadcastStream(),
-                            streamRoundTotal: this.scRoundTotal.stream.asBroadcastStream(),
+                            streamRestRoundDuration: this
+                                .scRoundRestDuration
+                                .stream
+                                .asBroadcastStream(),
+                            streamRoundTotal:
+                                this.scRoundTotal.stream.asBroadcastStream(),
                             scEnableSetting: this.scEnableSetting,
                           )
                         ],
@@ -218,6 +250,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         streamStartRound:
                             this.scStartRound.stream.asBroadcastStream(),
                         scController: this.scController,
+                        scRoundsCountdown: this.scRoundsCountdown,
+                        streamRestRoundDuration: this.scRoundRestDuration.stream.asBroadcastStream(),
+                        streamEnableSetting:
+                            this.scEnableSetting.stream.asBroadcastStream(),
                       )
                     ],
                   ),
