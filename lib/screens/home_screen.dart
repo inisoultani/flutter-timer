@@ -8,9 +8,7 @@ import 'package:flutter_timer/widgets/floatingButton.dart';
 import 'package:flutter_timer/widgets/restAndRoundSetting.dart';
 import 'package:flutter_timer/widgets/rounds.dart';
 import 'package:flutter_timer/widgets/timer.dart';
-import 'package:flutter_timer/widgets/timer_control.dart';
 import 'package:intl/intl.dart';
-import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -50,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,

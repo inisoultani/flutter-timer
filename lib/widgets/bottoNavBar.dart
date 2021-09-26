@@ -171,23 +171,6 @@ class _BottomNavbarState extends State<BottomNavbar> {
           return AlertDialog(
             title: const Text('Select a color'),
             content: SingleChildScrollView(
-              // child: MaterialColorPicker(
-              //   allowShades: false, // default true
-              //   onColorChange: (Color color) {
-              //     print('color changed');
-              //   },
-              //   selectedColor: Colors.red,
-              //   colors: [
-              //     Colors.red,
-              //     Colors.green,
-              //     Colors.deepOrange,
-              //     Colors.deepPurple,
-              //     Colors.blue,
-              //     Colors.grey,
-              //     Colors.blueGrey,
-              //     Colors.brown
-              //   ],
-              // )
               child: BlockPicker(
                 pickerColor: currentColor,
                 onColorChanged: changeColor,
@@ -229,6 +212,14 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     selectLogoToUse();
                   },
                 ),
+                ListTile(
+                  leading: new Icon(Icons.color_lens),
+                  title: new Text('Change Color'),
+                  onTap: () {
+                    //Navigator.pop(context);
+                    showColorPickerDialog(context);
+                  },
+                ),
                 SettingNumberPicker(
                     scSetting: this.widget.scRoundDuration,
                     defaulValue: this.roundDuration,
@@ -250,14 +241,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     maxValue: 15,
                     icon: Icons.calendar_view_day_rounded,
                     title: 'Rounds'),
-                ListTile(
-                  leading: new Icon(Icons.color_lens),
-                  title: new Text('Change Color'),
-                  onTap: () {
-                    //Navigator.pop(context);
-                    showColorPickerDialog(context);
-                  },
-                ),
+                
               ],
             );
           });
