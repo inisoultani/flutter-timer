@@ -139,9 +139,29 @@ class _BottomNavbarState extends State<BottomNavbar> {
     }
   }
 
+  Map<int, Color> generateColorMap(int r, int g, int b) {
+    return {
+      50: Color.fromRGBO(r, g, b, .1),
+      100: Color.fromRGBO(r, g, b, .2),
+      200: Color.fromRGBO(r, g, b, .3),
+      300: Color.fromRGBO(r, g, b, .4),
+      400: Color.fromRGBO(r, g, b, .5),
+      500: Color.fromRGBO(r, g, b, .6),
+      600: Color.fromRGBO(r, g, b, .7),
+      700: Color.fromRGBO(r, g, b, .8),
+      800: Color.fromRGBO(r, g, b, .9),
+      900: Color.fromRGBO(r, g, b, 1),
+    };
+  }
+
   void changeColor(Color color) {
-    setState(() => currentColor = Colors.deepOrange);
-    this.widget.scColor.add(Colors.deepOrange);
+    //color.
+    print('test');
+    MaterialColor customMaterialColor = MaterialColor(
+        0xFF9E9E9E, this.generateColorMap(color.red, color.green, color.blue));
+    setState(() => currentColor = customMaterialColor);
+    this.widget.scColor.add(customMaterialColor);
+    print('navbar costom color : $currentColor');
   }
 
   void showColorPickerDialog(BuildContext context) {
@@ -151,9 +171,36 @@ class _BottomNavbarState extends State<BottomNavbar> {
           return AlertDialog(
             title: const Text('Select a color'),
             content: SingleChildScrollView(
+              // child: MaterialColorPicker(
+              //   allowShades: false, // default true
+              //   onColorChange: (Color color) {
+              //     print('color changed');
+              //   },
+              //   selectedColor: Colors.red,
+              //   colors: [
+              //     Colors.red,
+              //     Colors.green,
+              //     Colors.deepOrange,
+              //     Colors.deepPurple,
+              //     Colors.blue,
+              //     Colors.grey,
+              //     Colors.blueGrey,
+              //     Colors.brown
+              //   ],
+              // )
               child: BlockPicker(
                 pickerColor: currentColor,
                 onColorChanged: changeColor,
+                availableColors: [
+                  Colors.red,
+                  Colors.green,
+                  Colors.deepOrange,
+                  Colors.deepPurple,
+                  Colors.blue,
+                  Colors.grey,
+                  Colors.blueGrey,
+                  Colors.brown
+                ],
               ),
             ),
           );
@@ -251,7 +298,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     return BottomAppBar(
       //bottom navigation bar on scaffold
       color: Colors.grey.shade100,
-      
+
       shape: CircularNotchedRectangle(), //shape of notch
       notchMargin: 6, //notche margin between floating button and bottom appbar
       child: Row(

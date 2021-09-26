@@ -31,9 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
       StreamController<bool>.broadcast();
   final StreamController<int> scRoundsCountdown =
       StreamController<int>.broadcast();
-  final StreamController<MaterialColor> scColor = StreamController<MaterialColor>();
+  final StreamController<MaterialColor> scColor =
+      StreamController<MaterialColor>();
 
   final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
+
   Icon startButtonIcon = Icon(Icons.play_arrow);
   int startRoundState = 0;
   bool isRoundAlreadyStarted = false;
@@ -109,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     scColor.stream.listen((newColor) {
+      print('newcolor  : $newColor');
       setState(() {
         this.currentColor = newColor;
       });
@@ -191,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Card(
                 elevation: 1,
-                color: Colors.deepPurple.shade700,
+                color: this.currentColor.shade700,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 child: Padding(
@@ -241,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 margin: EdgeInsets.only(top: 50),
                 clipBehavior: Clip.none,
                 elevation: 1,
-                color: Colors.deepPurple.shade700,
+                color: this.currentColor.shade700,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 child: Container(
