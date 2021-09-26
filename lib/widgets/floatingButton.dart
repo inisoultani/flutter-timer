@@ -11,7 +11,7 @@ class StartFloatingButton extends StatelessWidget {
         width: 55,
         height: 55,
         child: FloatingActionButton(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(29)),
           onPressed: this.startRoundState == 2 ? null : () => this.startRound(),
           child: Icon(this.startRoundState == 1 ? Icons.pause : Icons.play_arrow),
           backgroundColor: this.startRoundState == 2 ? Colors.grey : Colors.green,

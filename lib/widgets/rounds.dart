@@ -23,16 +23,20 @@ class _RoundsState extends State<Rounds> {
     });
   }
 
+  LinearGradient generateGradient() {
+    return LinearGradient(
+              colors: [Colors.black45.withOpacity(0.6), Colors.black],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            );
+  }
+
   Widget starDecoration(BorderRadius borderRadius) {
     return Container(
       width: 120,
       height: 20,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.yellow.shade800.withOpacity(0.6), Colors.yellow],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        gradient: generateGradient(),
         borderRadius: borderRadius,
       ),
       child: Icon(Icons.star, size: 15, color: Colors.white),
@@ -53,9 +57,9 @@ class _RoundsState extends State<Rounds> {
             Text(
               'ROUND',
               style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                  fontSize: 23,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.white,fontFamily: 'ChunkFive'),
             ),
             SizedBox(height: 5),
             Text(
@@ -69,11 +73,7 @@ class _RoundsState extends State<Rounds> {
             ),
           ]),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.yellow.shade800.withOpacity(0.6), Colors.yellow],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            gradient: generateGradient(),
             //borderRadius: BorderRadius.circular(5),
           ),
         ),

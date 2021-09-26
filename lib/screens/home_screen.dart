@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       StreamController<bool>.broadcast();
   final StreamController<int> scRoundsCountdown =
       StreamController<int>.broadcast();
+  final StreamController<MaterialColor> scColor = StreamController<MaterialColor>();
 
   final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
   Icon startButtonIcon = Icon(Icons.play_arrow);
@@ -42,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int roundsTotal = 1;
   bool isSettingEnabled = false;
   int roundsCountDown = 0;
+  MaterialColor currentColor = Colors.deepPurple;
 
   @override
   void initState() {
@@ -105,6 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
         nextRound();
       }
     });
+
+    scColor.stream.listen((newColor) {
+      setState(() {
+        this.currentColor = newColor;
+      });
+    });
   }
 
   void startRound({bool isNext = false}) {
@@ -115,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             this.roundsCountDown = this.roundsTotal;
           });
-           print('117 this.roundsCountDown : ${this.roundsCountDown}');
+          print('117 this.roundsCountDown : ${this.roundsCountDown}');
         }
         this.isRoundAlreadyStarted = true;
         this.scNextRound.add(1);
@@ -153,7 +161,6 @@ class _HomeScreenState extends State<HomeScreen> {
       this.isRoundAlreadyStarted = false;
     });
     this.startRound(isNext: true);
-    
   }
 
   @override
@@ -169,9 +176,10 @@ class _HomeScreenState extends State<HomeScreen> {
           scRestRoundDuration: this.scRoundRestDuration,
           scRoundsTotal: this.scRoundTotal,
           scRoundDuration: this.scRoundDuration,
+          scColor: this.scColor,
           startRoundState: this.startRoundState),
       body: Container(
-        decoration: BoxDecoration(color: Colors.deepPurple.shade600),
+        decoration: BoxDecoration(color: this.currentColor.shade600),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -203,9 +211,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             DateFormat('h:mm a').format(DateTime.now()),
                             style: TextStyle(
-                                fontSize: 45,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,),
+                              fontSize: 45,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           RestAndRoundSetting(
                             defaultRestRoundDuration: this.restRoundDuration,
@@ -252,7 +261,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             this.scStartRound.stream.asBroadcastStream(),
                         scController: this.scController,
                         scRoundsCountdown: this.scRoundsCountdown,
-                        streamRestRoundDuration: this.scRoundRestDuration.stream.asBroadcastStream(),
+                        streamRestRoundDuration:
+                            this.scRoundRestDuration.stream.asBroadcastStream(),
                         streamEnableSetting:
                             this.scEnableSetting.stream.asBroadcastStream(),
                       )

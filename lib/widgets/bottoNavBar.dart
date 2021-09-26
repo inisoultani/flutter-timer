@@ -5,8 +5,8 @@ import 'dart:math';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timer/widgets/settingNumberPicker.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class BottomNavbar extends StatefulWidget {
   final Function resetRound;
@@ -16,6 +16,7 @@ class BottomNavbar extends StatefulWidget {
   final StreamController<int> scRoundDuration;
   final StreamController<int> scRoundsTotal;
   final StreamController<int> scRestRoundDuration;
+  final StreamController<MaterialColor> scColor;
   const BottomNavbar(
       {Key? key,
       required this.resetRound,
@@ -24,6 +25,7 @@ class BottomNavbar extends StatefulWidget {
       required this.scBJJLogo,
       required this.scRoundDuration,
       required this.scRestRoundDuration,
+      required this.scColor,
       required this.scRoundsTotal})
       : super(key: key);
 
@@ -35,7 +37,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   int roundDuration = 5;
   int restRoundDuration = 2;
   int totalRounds = 1;
-
+  MaterialColor currentColor = Colors.deepPurple;
   File? selectedFile;
   final _chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
@@ -90,6 +92,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     return Material(
         //borderRadius: BorderRadius.circular(25),
         shape: CircleBorder(),
+        color: Colors.grey.shade100,
         child: IconButton(
           onPressed: onPressed,
           color: Colors.deepPurple.shade800,
@@ -136,6 +139,27 @@ class _BottomNavbarState extends State<BottomNavbar> {
     }
   }
 
+  void changeColor(Color color) {
+    setState(() => currentColor = Colors.deepOrange);
+    this.widget.scColor.add(Colors.deepOrange);
+  }
+
+  void showColorPickerDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Select a color'),
+            content: SingleChildScrollView(
+              child: BlockPicker(
+                pickerColor: currentColor,
+                onColorChanged: changeColor,
+              ),
+            ),
+          );
+        });
+  }
+
   void openBottomSheet(BuildContext context) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -179,22 +203,62 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     maxValue: 15,
                     icon: Icons.calendar_view_day_rounded,
                     title: 'Rounds'),
+                ListTile(
+                  leading: new Icon(Icons.color_lens),
+                  title: new Text('Change Color'),
+                  onTap: () {
+                    //Navigator.pop(context);
+                    showColorPickerDialog(context);
+                  },
+                ),
               ],
             );
           });
         });
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Container(
+  //     color: Colors.white,
+  //     padding: EdgeInsets.all(15.0),
+  //     child: Row(
+  //       crossAxisAlignment: CrossAxisAlignment.start, // Optional
+  //       mainAxisAlignment:
+  //           MainAxisAlignment.spaceAround, // Change to your own spacing
+  //       children: [
+  //         SizedBox(
+  //           width: 10,
+  //         ),
+  //         createNavbarButton(
+  //             'Reset Timer',
+  //             Icon(Icons.restore_outlined),
+  //             this.widget.startRoundState == 1
+  //                 ? () => this.widget.resetRound()
+  //                 : null),
+  //         createNavbarButton('Next Round', Icon(Icons.double_arrow),
+  //             () => this.widget.nextRound()),
+  //         createNavbarButton(
+  //             'Settings', Icon(Icons.settings), () => openBottomSheet(context)),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.all(15.0),
+    // TODO: implement build
+    return BottomAppBar(
+      //bottom navigation bar on scaffold
+      color: Colors.grey.shade100,
+      
+      shape: CircularNotchedRectangle(), //shape of notch
+      notchMargin: 6, //notche margin between floating button and bottom appbar
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start, // Optional
-        mainAxisAlignment:
-            MainAxisAlignment.spaceAround, // Change to your own spacing
-        children: [
+        //children inside bottom appbar
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
           SizedBox(
             width: 10,
           ),
