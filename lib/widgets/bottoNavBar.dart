@@ -141,15 +141,15 @@ class _BottomNavbarState extends State<BottomNavbar> {
 
   Map<int, Color> generateColorMap(int r, int g, int b) {
     return {
-      50: Color.fromRGBO(r, g, b, .1),
-      100: Color.fromRGBO(r, g, b, .2),
-      200: Color.fromRGBO(r, g, b, .3),
-      300: Color.fromRGBO(r, g, b, .4),
-      400: Color.fromRGBO(r, g, b, .5),
-      500: Color.fromRGBO(r, g, b, .6),
-      600: Color.fromRGBO(r, g, b, .7),
-      700: Color.fromRGBO(r, g, b, .8),
-      800: Color.fromRGBO(r, g, b, .9),
+      50: Color.fromRGBO(r, g, b, .55),
+      100: Color.fromRGBO(r, g, b, .60),
+      200: Color.fromRGBO(r, g, b, .65),
+      300: Color.fromRGBO(r, g, b, .70),
+      400: Color.fromRGBO(r, g, b, .75),
+      500: Color.fromRGBO(r, g, b, .80),
+      600: Color.fromRGBO(r, g, b, .85),
+      700: Color.fromRGBO(r, g, b, .90),
+      800: Color.fromRGBO(r, g, b, .95),
       900: Color.fromRGBO(r, g, b, 1),
     };
   }
@@ -158,7 +158,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     //color.
     print('test');
     MaterialColor customMaterialColor = MaterialColor(
-        0xFF9E9E9E, this.generateColorMap(color.red, color.green, color.blue));
+        0xFFFFFF, this.generateColorMap(color.red, color.green, color.blue));
     setState(() => currentColor = customMaterialColor);
     this.widget.scColor.add(customMaterialColor);
     print('navbar costom color : $currentColor');
