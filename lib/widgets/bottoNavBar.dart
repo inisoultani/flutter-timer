@@ -163,18 +163,21 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     defaulValue: this.roundDuration,
                     minValue: 1,
                     maxValue: 30,
+                    icon: Icons.timelapse,
                     title: 'Round Duration'),
                 SettingNumberPicker(
                     scSetting: this.widget.scRestRoundDuration,
                     defaulValue: this.restRoundDuration,
                     minValue: 1,
                     maxValue: 5,
+                    icon: Icons.timelapse,
                     title: 'Rest Round Duration'),
                 SettingNumberPicker(
                     scSetting: this.widget.scRoundsTotal,
                     defaulValue: this.totalRounds,
                     minValue: 1,
                     maxValue: 15,
+                    icon: Icons.calendar_view_day_rounded,
                     title: 'Rounds'),
               ],
             );

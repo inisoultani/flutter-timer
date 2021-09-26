@@ -8,6 +8,7 @@ class SettingNumberPicker extends StatefulWidget {
   final int minValue;
   final int maxValue;
   final String title;
+  final IconData icon;
 
   const SettingNumberPicker(
       {Key? key,
@@ -15,7 +16,8 @@ class SettingNumberPicker extends StatefulWidget {
       required this.defaulValue,
       required this.minValue,
       required this.maxValue,
-      required this.title})
+      required this.title,
+      required this.icon})
       : super(key: key);
 
   @override
@@ -39,7 +41,7 @@ class _SettingNumberPickerState extends State<SettingNumberPicker> {
     return Column(
       children: [
         ListTile(
-          leading: new Icon(Icons.timelapse),
+          leading: new Icon(this.widget.icon),
           title: new Text(this.widget.title),
           onTap: () {
             Navigator.pop(context);

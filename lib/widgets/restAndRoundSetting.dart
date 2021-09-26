@@ -93,7 +93,7 @@ class _RestAndRoundSettingState extends State<RestAndRoundSetting> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Icon(
-                  Icons.av_timer,
+                  Icons.timelapse,
                   color: Colors.deepPurple,
                   size: 25,
                 ),

@@ -61,8 +61,10 @@ class _RoundsState extends State<Rounds> {
             Text(
               '${this.roundsCount}',
               style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 50,
                   color: Colors.white,
+                  height: 0.84,
+                  //backgroundColor: Colors.red,
                   fontFamily: 'ChunkFive'),
             ),
           ]),
