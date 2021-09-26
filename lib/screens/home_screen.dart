@@ -181,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
           scColor: this.scColor,
           startRoundState: this.startRoundState),
       body: Container(
-        decoration: BoxDecoration(color: this.currentColor.shade600),
+        decoration: BoxDecoration(color: this.currentColor.shade700),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -193,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Card(
                 elevation: 1,
-                color: this.currentColor.shade700,
+                color: this.currentColor.shade900,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 child: Padding(
@@ -243,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 margin: EdgeInsets.only(top: 50),
                 clipBehavior: Clip.none,
                 elevation: 1,
-                color: this.currentColor.shade700,
+                color: this.currentColor.shade900,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 child: Container(
