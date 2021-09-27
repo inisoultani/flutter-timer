@@ -33,6 +33,7 @@ dependencies:
   file_picker: ^4.1.1
   flutter_colorpicker: ^0.6.0
   wakelock: ^0.5.6
+  shared_preferences: ^2.0.8
 
 dev_dependencies:
   flutter_test:

@@ -9,6 +9,7 @@ import 'package:flutter_timer/widgets/restAndRoundSetting.dart';
 import 'package:flutter_timer/widgets/rounds.dart';
 import 'package:flutter_timer/widgets/timer.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -33,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
       StreamController<MaterialColor>();
 
   final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  static const SAVED_IMAGE_PATH = 'saved_image_logo_path';
 
   Icon startButtonIcon = Icon(Icons.play_arrow);
   int startRoundState = 0;
@@ -43,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int roundsTotal = 1;
   bool isSettingEnabled = false;
   int roundsCountDown = 0;
-  MaterialColor currentColor = Colors.deepPurple;
+  MaterialColor currentColor = Colors.grey;
 
   @override
   void initState() {
@@ -53,6 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
+
+    getSavedImagePath();
 
     scController.stream.asBroadcastStream().listen((event) {
       print('event : $event');
@@ -66,9 +71,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     scBJJLogo.stream.asBroadcastStream().listen((newImagePath) {
-      setState(() {
-        this.imagePath = newImagePath;
-      });
+      // setState(() {
+      //   this.imagePath = newImagePath;
+      // });
+      saveImagePath(newImagePath);
     });
 
     scRoundDuration.stream.asBroadcastStream().listen((newRoundDuration) {
@@ -113,6 +119,26 @@ class _HomeScreenState extends State<HomeScreen> {
       print('newcolor  : $newColor');
       setState(() {
         this.currentColor = newColor;
+      });
+    });
+  }
+
+  void getSavedImagePath() async {
+    final SharedPreferences prefs = await this._prefs;
+    final String? savedImagePath = prefs.getString(SAVED_IMAGE_PATH);
+
+    if (savedImagePath != null) {
+      setState(() {
+        this.imagePath = savedImagePath;
+      });
+    }
+  }
+
+  void saveImagePath(String newImagePath) async {
+    final SharedPreferences prefs = await this._prefs;
+    prefs.setString(SAVED_IMAGE_PATH, newImagePath).then((value) {
+      setState(() {
+        this.imagePath = newImagePath;
       });
     });
   }
