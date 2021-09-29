@@ -145,7 +145,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void startRound({bool isNext = false}) {
     setState(() {
-      this.startRoundState = this.startRoundState == 1 ? 0 : 1;
+      if (isNext) {
+        this.startRoundState = 1;
+        this.scStartRound.add(2);
+      } else {
+        this.startRoundState = this.startRoundState == 1 ? 0 : 1; 
+        this.scStartRound.add(this.startRoundState);  
+      }
+      
       if (!this.isRoundAlreadyStarted) {
         if (isSettingEnabled && !(this.roundsCountDown > 0)) {
           setState(() {
@@ -159,9 +166,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     print('homescreen startRound : ${this.startRoundState}');
     if (isNext) {
-      this.scStartRound.add(2);
+      
     } else {
-      this.scStartRound.add(this.startRoundState);
+      
     }
     // if (isSettingEnabled) {
     //   setState(() {

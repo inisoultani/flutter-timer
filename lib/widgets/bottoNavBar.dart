@@ -282,7 +282,6 @@ class _BottomNavbarState extends State<BottomNavbar> {
     return BottomAppBar(
       //bottom navigation bar on scaffold
       color: Colors.grey.shade100,
-
       shape: CircularNotchedRectangle(), //shape of notch
       notchMargin: 6, //notche margin between floating button and bottom appbar
       child: Row(

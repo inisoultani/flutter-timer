@@ -48,7 +48,7 @@ class _SettingNumberPickerState extends State<SettingNumberPicker> {
           },
         ),
         Container(
-            child: Column(
+          child: Column(
           children: [
             NumberPicker(
               value: this._currentValue,
@@ -56,6 +56,14 @@ class _SettingNumberPickerState extends State<SettingNumberPicker> {
               maxValue: 30,
               step: 1,
               axis: Axis.horizontal,
+              // textStyle: TextStyle(
+              //   color: Colors.white
+              // ),
+              selectedTextStyle: TextStyle(
+                color: Colors.deepPurple,
+                fontWeight: FontWeight.bold,
+                fontSize: 20
+              ),
               onChanged: (value) {
                 setState(() {
                   this._currentValue = value;
@@ -65,6 +73,8 @@ class _SettingNumberPickerState extends State<SettingNumberPicker> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: Colors.black26),
+                // color: Colors.deepPurple,
+                // backgroundBlendMode: BlendMode.hardLight
               ),
             ),
             SizedBox(
