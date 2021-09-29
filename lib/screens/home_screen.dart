@@ -165,16 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
     print('homescreen startRound : ${this.startRoundState}');
-    if (isNext) {
-      
-    } else {
-      
-    }
-    // if (isSettingEnabled) {
-    //   setState(() {
-    //     this.roundsCountDown--;
-    //   });
-    // }
+    
   }
 
   void resetRound() {
