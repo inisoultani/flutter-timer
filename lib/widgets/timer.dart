@@ -89,7 +89,7 @@ class TimerWidgetState extends State<TimerWidget> {
           (isCountdown ? (secondsInterval * -1) : secondsInterval);
       this.duration = Duration(seconds: seconds);
 
-      if (seconds == warnTimeInSeconds) {
+      if (seconds < warnTimeInSeconds && this.timeCardColor != Colors.orange) {
         this.timeCardColor = Colors.orange;
         playBellLocal(2);
       }
