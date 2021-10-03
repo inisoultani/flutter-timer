@@ -89,7 +89,7 @@ class TimerWidgetState extends State<TimerWidget> {
           (isCountdown ? (secondsInterval * -1) : secondsInterval);
       this.duration = Duration(seconds: seconds);
 
-      if (seconds < warnTimeInSeconds && this.timeCardColor != Colors.orange) {
+      if (seconds < warnTimeInSeconds && this.timeCardColor != Colors.orange && this.timeCardColor != Colors.blue) {
         this.timeCardColor = Colors.orange;
         playBellLocal(2);
       }
@@ -97,8 +97,9 @@ class TimerWidgetState extends State<TimerWidget> {
       if (seconds == 0 && isCountdown) {
         timer!.cancel();
         timer = null;
+        if (this.timeCardColor != Colors.blue) playBellLocal(3);
         this.timeCardColor = Colors.red;
-        playBellLocal(3);
+        
         // for (int x = 0; x < 3; x++) {
         //   Future.delayed(Duration(milliseconds: (1150 * x)), () {
         //     playBellLocal(1);
