@@ -10,6 +10,7 @@ import 'package:flutter_timer/widgets/rounds.dart';
 import 'package:flutter_timer/widgets/timer.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -36,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final timerWidgetGlobalKey = GlobalKey<TimerWidgetState>();
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   static const SAVED_IMAGE_PATH = 'saved_image_logo_path';
+  static const SAVED_COLOR = 'saved_color';
 
   Icon startButtonIcon = Icon(Icons.play_arrow);
   int startRoundState = 0;
@@ -58,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ]);
 
     getSavedImagePath();
+    getSavedColor();
 
     scController.stream.asBroadcastStream().listen((event) {
       print('event : $event');
@@ -117,9 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     scColor.stream.listen((newColor) {
       print('newcolor  : $newColor');
-      setState(() {
-        this.currentColor = newColor;
-      });
+      // setState(() {
+      //   this.currentColor = newColor;
+      // });
+      saveSelectedColor(newColor);
     });
   }
 
@@ -134,6 +138,20 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void getSavedColor() async {
+    final SharedPreferences prefs = await this._prefs;
+    final String? savedColor = prefs.getString(SAVED_COLOR);
+    print('savedColor : $savedColor');
+    if (savedColor != null) {
+      Map<String, dynamic> data = jsonDecode(savedColor);
+      MaterialColor customMaterialColor = MaterialColor(0xFFFFFF,
+          BottomNavbar.generateColorMap(data['r'], data['g'], data['b']));
+      setState(() {
+        this.currentColor = customMaterialColor;
+      });
+    }
+  }
+
   void saveImagePath(String newImagePath) async {
     final SharedPreferences prefs = await this._prefs;
     prefs.setString(SAVED_IMAGE_PATH, newImagePath).then((value) {
@@ -143,16 +161,35 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void saveSelectedColor(MaterialColor color) async {
+    final SharedPreferences prefs = await this._prefs;
+    print('saving color : ${materialColorToJson(color)}');
+    prefs.setString(SAVED_COLOR, materialColorToJson(color)).then((value) {
+      setState(() {
+        this.currentColor = color;
+      });
+    });
+  }
+
+  String materialColorToJson(MaterialColor color) {
+    Map<String, dynamic> data = {
+      'r': color.shade900.red,
+      'g': color.shade900.green,
+      'b': color.shade900.blue,
+    };
+    return jsonEncode(data);
+  }
+
   void startRound({bool isNext = false}) {
     setState(() {
       if (isNext) {
         this.startRoundState = 1;
         this.scStartRound.add(2);
       } else {
-        this.startRoundState = this.startRoundState == 1 ? 0 : 1; 
-        this.scStartRound.add(this.startRoundState);  
+        this.startRoundState = this.startRoundState == 1 ? 0 : 1;
+        this.scStartRound.add(this.startRoundState);
       }
-      
+
       if (!this.isRoundAlreadyStarted) {
         if (isSettingEnabled && !(this.roundsCountDown > 0)) {
           setState(() {
@@ -165,7 +202,6 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
     print('homescreen startRound : ${this.startRoundState}');
-    
   }
 
   void resetRound() {
