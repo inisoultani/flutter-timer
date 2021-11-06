@@ -325,13 +325,18 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.white,
                             ),
                           ),
-                          Text(
-                            DateFormat('h:mm a').format(DateTime.now()),
-                            style: TextStyle(
-                              fontSize: 45,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          StreamBuilder(
+                            stream: Stream.periodic(const Duration(seconds: 1)),
+                            builder: (context, snapshot) {
+                              return Text(
+                                DateFormat('h:mm a').format(DateTime.now()),
+                                style: TextStyle(
+                                  fontSize: 45,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            },
                           ),
                           RestAndRoundSetting(
                             defaultRestRoundDuration: this.restRoundDuration,
